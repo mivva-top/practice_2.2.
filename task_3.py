@@ -5,14 +5,13 @@ import urllib.request
 URL = "https://www.cbr-xml-daily.ru/daily_json.js"
 SAVE_FILE = "save.json"
 
-# Загружаем группы
 if os.path.exists(SAVE_FILE):
     with open(SAVE_FILE, "r") as f:
         groups = json.load(f)
 else:
     groups = {}
 
-print("МОНИТОРИНГ ВАЛЮТ")
+print("Мониторинг валют")
 
 while True:
     print("\n1. Все валюты")
@@ -51,7 +50,6 @@ while True:
             print("Ошибка")
 
     elif c == "3":
-        # Создать группу и добавить валюты
         name = input("Название группы: ")
 
         if name in groups:
@@ -59,16 +57,14 @@ while True:
         else:
             groups[name] = []
 
-            # Сразу добавляем валюты
             print("\nДобавить валюты в группу. Оставьте пустым для завершения.")
 
             while True:
                 code = input("Код валюты для добавления (или Enter для завершения): ").upper()
 
-                if not code:  # если пустая строка
+                if not code:
                     break
 
-                # Проверяем, существует ли валюта
                 try:
                     response = urllib.request.urlopen(URL, timeout=3)
                     data = json.loads(response.read().decode('utf-8'))
@@ -85,7 +81,6 @@ while True:
                 except:
                     print("Ошибка проверки валюты")
 
-            # Сохраняем
             with open(SAVE_FILE, "w") as f:
                 json.dump(groups, f, indent=2)
 
@@ -96,7 +91,6 @@ while True:
                 print("Группа пустая")
 
     elif c == "4":
-        # Мои группы
         if not groups:
             print("Нет созданных групп")
         else:
@@ -104,7 +98,6 @@ while True:
             for name, codes in groups.items():
                 print(f"\n{name}:")
                 if codes:
-                    # Показываем подробности по валютам
                     try:
                         response = urllib.request.urlopen(URL, timeout=3)
                         data = json.loads(response.read().decode('utf-8'))
@@ -116,13 +109,11 @@ while True:
                             else:
                                 print(f"  {code}: не найден")
                     except:
-                        # Если не удалось загрузить данные, просто показываем коды
                         print(f"  {', '.join(codes)}")
                 else:
                     print("  (пусто)")
 
     elif c == "5":
-        # Добавить валюту в существующую группу
         if not groups:
             print("Нет созданных групп")
         else:
@@ -138,7 +129,6 @@ while True:
 
                     code = input("Код валюты для добавления: ").upper()
 
-                    # Проверяем валюту
                     try:
                         response = urllib.request.urlopen(URL, timeout=3)
                         data = json.loads(response.read().decode('utf-8'))
@@ -162,7 +152,6 @@ while True:
                 print("Неверный ввод")
 
     elif c == "6":
-        # Удалить валюту из группы
         if not groups:
             print("Нет созданных групп")
         else:
