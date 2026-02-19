@@ -69,7 +69,7 @@ while True:
             data = json.loads(response.read().decode('utf-8'))
 
             print(f"\nНайдено: {data['total_count']}")
-            for repo in data['items'][:10]:  # первые 10
+            for repo in data['items'][:10]:  
                 print(f"\n{repo['full_name']}")
                 print(f"  {repo.get('description', 'Нет описания')}")
                 print(f"  Язык: {repo.get('language', 'Не указан')}")
@@ -79,4 +79,5 @@ while True:
             print(f"Ошибка: {e}")
 
     elif choice == "0":
+
         break
